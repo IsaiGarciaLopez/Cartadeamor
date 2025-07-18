@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Carta de Amor 💖</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<audio autoplay loop>
+  <source src="Zoe - Luna.mp3" type="audio/mpeg" />
+  Tu navegador no soporta la reproducción de audio.
+</audio>
+
+
+<body>
+
+  <!-- Fondo con corazones flotando -->
+  <canvas id="heartCanvas"></canvas>
+
+  <!-- Slide 1 -->
+  <div class="slide">
+    <div class="text-section">Mi carta de amor</div>
+    <img class="img-slide" src="imagenes/1.jpg" alt="1" />
+  </div>
+
+  <div class="slide">
+    <div class="text-section">El primer hola</div>
+    <img class="img-slide" src="imagenes/2.jpg" alt="2" />
+  </div>
+
+  <div class="slide">
+    <div class="text-section">La primera vez que te vi</div>
+    <img class="img-slide" src="imagenes/3.jpg" alt="3" />
+  </div>
+
+  <div class="slide">
+    <div class="text-section">Nuestra primera cita</div>
+    <img class="img-slide" src="imagenes/4.jpg" alt="4" />
+  </div>
+
+  <div class="slide">
+    <div class="text-section">La pijamada, el momento en que me di cuenta que te amaba de verdad</div>
+    <img class="img-slide" src="imagenes/5.jpg" alt="5" />
+  </div>
+
+  <div class="slide">
+    <div class="text-section">Cosas que amo de ti</div>
+    <img class="img-slide" src="imagenes/6.jpg" alt="6" />
+  </div>
+
+  <div class="slide">
+    <div class="text-section">No puedo dejar de mirarte</div>
+    <img class="img-slide" src="imagenes/7.jpg" alt="7" />
+  </div>
+
+  <!-- Script de corazones pastel -->
+  <script>
+    const canvas = document.getElementById('heartCanvas');
+    const ctx = canvas.getContext('2d');
+    let hearts = [];
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+
+    function pastelColor() {
+      const colors = ['#ffcce0', '#ffd6e7', '#ffe0f0', '#ffb3cc', '#ff99bb'];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    function createHeart() {
+      const size = Math.random() * 20 + 10;
+      hearts.push({
+        x: Math.random() * canvas.width,
+        y: canvas.height + size,
+        size: size,
+        speed: Math.random() * 1 + 0.5,
+        dx: Math.random() * 0.5 - 0.25,
+        color: pastelColor()
+      });
+    }
+
+    function drawHeart(x, y, size, color) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.bezierCurveTo(0, -size / 2, -size, -size / 2, -size, 0);
+      ctx.bezierCurveTo(-size, size / 2, 0, size, 0, size * 1.5);
+      ctx.bezierCurveTo(0, size, size, size / 2, size, 0);
+      ctx.bezierCurveTo(size, -size / 2, 0, -size / 2, 0, 0);
+      ctx.fillStyle = color;
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (hearts.length < 80) createHeart();
+
+      hearts.forEach((heart, i) => {
+        heart.y -= heart.speed;
+        heart.x += heart.dx;
+        drawHeart(heart.x, heart.y, heart.size, heart.color);
+        if (heart.y + heart.size * 1.5 < 0) {
+          hearts.splice(i, 1);
+        }
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
+
+</body>
+</html>
